@@ -28,7 +28,7 @@ const App = () => {
     <CartProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Splash"
+          initialRouteName="Menu"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />

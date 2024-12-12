@@ -84,13 +84,13 @@ const CartScreen: React.FC = () => {
                     <TouchableOpacity
                       onPress={() => handleDecreaseQuantity(item.id)}
                     >
-                      <Text style={styles.quantityButton}>-</Text>
+                      <Text style={styles.minusButton}>-</Text>
                     </TouchableOpacity>
                     <Text style={styles.itemQuantity}>{item.quantity}</Text>
                     <TouchableOpacity
                       onPress={() => handleIncreaseQuantity(item.id)}
                     >
-                      <Text style={styles.quantityButton}>+</Text>
+                      <Text style={styles.plusButton}>+</Text>
                     </TouchableOpacity>
                   </View>
 
@@ -112,8 +112,9 @@ const CartScreen: React.FC = () => {
               {/* QRCode for Order Details */}
               <QRCode value={generateOrderDetails()} size={130} />
             </View>
+          </View>
 
-            <TouchableOpacity
+          <TouchableOpacity
               style={styles.confirmButton}
               onPress={() => alert("Order Confirmed")}
             >
@@ -127,7 +128,7 @@ const CartScreen: React.FC = () => {
             >
               <Text style={styles.emptyCartButtonText}>Clear Cart</Text>
             </TouchableOpacity>
-          </View>
+
         </>
       ) : (
         <Text style={styles.emptyCart}>Your cart is empty.</Text>
@@ -141,6 +142,25 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+
+  
+  minusButton: {
+    backgroundColor: "#FF6B6B",
+    borderRadius: 8,
+    padding: 5,
+    fontSize: 20,
+    textAlign: "center",
+    width: 60,
+},
+plusButton: {
+    fontSize: 20,
+    padding: 5,
+    textAlign: "center",
+    backgroundColor: "#9BE38A",
+    borderRadius: 8,
+    width: 60,
+},
+
   backButtonContainer: {
     position: "absolute",
     top: 13,
@@ -150,7 +170,8 @@ const styles = StyleSheet.create({
   backButton: {
     width: 50,
     height: 50,
-    marginTop: 20,
+    marginTop: 9,
+    left:309,
   },
   itemContainer: {
     backgroundColor: "lightgray",
@@ -199,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
     textAlign: "center",
-    backgroundColor: "green",
+    backgroundColor: "#9BE38A",
     borderRadius: 8,
     width: 60,
   },
@@ -212,21 +233,21 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     color:"white",
     borderColor: "black",
-    backgroundColor: "red",
+    backgroundColor: "black",
     marginLeft: 220,
     marginTop:-35,
-    borderBottomEndRadius: -50,
+    
   },
   bottomSection: {
     borderRadius:4,
     borderWidth:2,
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 0,
+  maxWidth:"auto",
     marginBottom: -9,
     margin: -9,
     alignItems: "center",
     backgroundColor: "#C8DEE7",
+  
   },
   qrCodeContainer: {
     alignItems: "center",
@@ -236,13 +257,14 @@ const styles = StyleSheet.create({
     marginBottom:9,
   },
   confirmButton: {
-    marginTop: -40,
-    backgroundColor: "#4CAF50",
-    padding: 19,
-    margin: 5,
+    marginTop: -90,
+    backgroundColor: "#58C7F3",
+    padding: 25,
+    top:-70,
+    marginLeft: 155,
     borderRadius: 5,
     alignItems: "center",
-    position:"fixed", 
+    width:180,
   },
   confirmButtonText: {
     color: "white",
@@ -253,8 +275,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   emptyCartButtonText: {
-    color: "red",
+    color: "white",
+    backgroundColor:"black",
+    textAlign: "center",
     fontSize: 16,
+    padding:5,
+    bottom:20,
+    right:20,
+    position:"absolute",
+    width:150,
   },
 });
 
