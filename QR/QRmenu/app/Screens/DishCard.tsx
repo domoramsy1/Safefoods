@@ -107,21 +107,28 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginVertical: 12,
+        
     },
     minusButton: {
         backgroundColor: "#FF6B6B",
         borderRadius: 8,
-        padding: 10,
+        paddingRight: 25,
+        paddingLeft:25,
+        padding:9,
     },
     plusButton: {
         backgroundColor: "#4CAF50",
         borderRadius: 8,
-        padding: 10,
+        paddingRight: 25,
+        paddingLeft:25,
+        padding:9,
+    
     },
     buttonText: {
         fontSize: 16,
         fontWeight: "bold",
         color: "#fff",
+        textAlign:"center"
     },
     quantityText: {
         fontSize: 18,
@@ -130,13 +137,14 @@ const styles = StyleSheet.create({
     },
     orderButton: {
         paddingVertical: 12,
-        paddingHorizontal: 30,
+        paddingHorizontal: 99,
         borderRadius: 8,
     },
     orderButtonText: {
         color: "#fff",
         fontWeight: "bold",
         fontSize: 16,
+        textAlign: "center",
     },
 });
 

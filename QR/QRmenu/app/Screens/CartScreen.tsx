@@ -1,24 +1,234 @@
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
+// import React, { useEffect, useState } from "react";
+// import {
+//   FlatList,
+//   StyleSheet,
+//   Text,
+//   View,
+//   TouchableOpacity,
+// } from "react-native";
+// import QRCode from "react-qr-code";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { useCart } from "./CartContext"; // Adjust path as necessary
+// import { useNavigation } from "@react-navigation/native"; // For navigation
+
+// const CartScreen: React.FC = () => {
+//   const { cartItems, clearCart, updateCartItemQuantity, removeCartItem } = useCart();
+//   const [user, setUser] = useState<{ firstName: string; lastName: string }>({
+//     firstName: "",
+//     lastName: "",
+//   });
+
+//   const navigation = useNavigation();
+
+//   useEffect(() => {
+//     const fetchUserData = async () => {
+//       try {
+//         const storedUserData = await AsyncStorage.getItem("userData");
+//         if (storedUserData) {
+//           const parsedUserData = JSON.parse(storedUserData);
+//           if (Array.isArray(parsedUserData) && parsedUserData.length > 0) {
+//             setUser({
+//               firstName: parsedUserData[0].firstName,
+//               lastName: parsedUserData[0].lastName,
+//             });
+//           }
+//         }
+//       } catch (error) {
+//         console.error("Failed to fetch user data:", error);
+//       }
+//     };
+
+//     fetchUserData();
+//   }, []);
+
+//   const calculateTotal = () => {
+//     return cartItems.reduce(
+//       (total, item) => total + item.price * item.quantity,
+//       0
+//     );
+//   };
+
+//   const generateQRData = () => {
+//     const orderDetails = cartItems.map((item) => ({
+//       name: item.name,
+//       quantity: item.quantity,
+//       price: item.price,
+//     }));
+//     return JSON.stringify({
+//       user: `${user.firstName} ${user.lastName}`,
+//       orderDetails,
+//     });
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       {/* Back to Menu Button */}
+//       <TouchableOpacity
+//         style={styles.backButton}
+//         onPress={() => navigation.goBack()}
+//       >
+//         <Text style={styles.backButtonText}>Back to Menu</Text>
+//       </TouchableOpacity>
+
+//       {cartItems.length > 0 ? (
+//         <>
+//           <FlatList
+//             data={cartItems}
+//             keyExtractor={(item) => item.id.toString()}
+//             renderItem={({ item }) => (
+//               <View style={styles.itemContainer}>
+//                 <View style={styles.itemDetails}>
+//                   <Text style={styles.itemName}>{item.name}</Text>
+//                   <Text style={styles.itemPrice}>₱{item.price}.00</Text>
+//                 </View>
+//                 <View style={styles.quantityContainer}>
+//                   <TouchableOpacity
+//                     style={styles.quantityButton}
+//                     onPress={() =>
+//                       updateCartItemQuantity(item.id, Math.max(1, item.quantity - 1))
+//                     }
+//                   >
+//                     <Text style={styles.buttonText}>-</Text>
+//                   </TouchableOpacity>
+//                   <Text style={styles.quantityText}>{item.quantity}</Text>
+//                   <TouchableOpacity
+//                     style={styles.quantityButton}
+//                     onPress={() =>
+//                       updateCartItemQuantity(item.id, item.quantity + 1)
+//                     }
+//                   >
+//                     <Text style={styles.buttonText}>+</Text>
+//                   </TouchableOpacity>
+//                 </View>
+//                 {/* Remove Button */}
+//                 <TouchableOpacity
+//                   style={styles.removeButton}
+//                   onPress={() => removeCartItem(item.id)}
+//                 >
+//                   <Text style={styles.removeButtonText}>Remove</Text>
+//                 </TouchableOpacity>
+//               </View>
+//             )}
+//           />
+
+//           <View style={styles.qrCodeContainer}>
+//             <Text style={styles.totalAmount}>
+//               Total: ₱{calculateTotal().toFixed(2)}
+//             </Text>
+//             <QRCode value={generateQRData()} size={150} />
+//           </View>
+//         </>
+//       ) : (
+//         <Text style={styles.emptyCart}>Your cart is empty.</Text>
+//       )}
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: { flex: 1, padding: 16 },
+//   backButton: {
+//     backgroundColor: "#007BFF",
+//     padding: 10,
+//     borderRadius: 5,
+//     marginBottom: 20,
+//   },
+//   backButtonText: {
+//     color: "white",
+//     fontSize: 16,
+//     textAlign: "center",
+//     fontWeight: "bold",
+//   },
+//   qrCodeContainer: { alignItems: "center", marginTop: 20 },
+//   totalAmount: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+//   emptyCart: { textAlign: "center", marginTop: 20, color: "#999" },
+//   itemContainer: {
+//     padding: 10,
+//     marginBottom: 10,
+//     backgroundColor: "#f9f9f9",
+//     borderRadius: 5,
+//   },
+//   itemDetails: { flexDirection: "row", justifyContent: "space-between" },
+//   itemName: { fontSize: 16 },
+//   itemPrice: { fontSize: 16, fontWeight: "bold" },
+//   quantityContainer: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     marginTop: 10,
+//     justifyContent: "center",
+//   },
+//   quantityButton: {
+//     backgroundColor: "#007BFF",
+//     padding: 10,
+//     borderRadius: 5,
+//     marginHorizontal: 5,
+//   },
+//   buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
+//   quantityText: { fontSize: 16, fontWeight: "bold", marginHorizontal: 10 },
+//   removeButton: {
+//     backgroundColor: "#FF4D4F",
+//     padding: 10,
+//     borderRadius: 5,
+//     marginTop: 10,
+//     alignSelf: "center",
+//   },
+//   removeButtonText: { color: "white", fontSize: 14, fontWeight: "bold" },
+// });
+
+// export default CartScreen;
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Image,
   View,
+  TouchableOpacity,
 } from "react-native";
-import QRCode from "react-qr-code"; // Correct import for QRCode
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCart } from "./CartContext"; // Adjust path as necessary
+import { useNavigation } from "@react-navigation/native"; // For navigation
+
+type RootStackParamList = {
+  OrderConfirmation: { qrData: string };
+};
+
+type CartScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "OrderConfirmation"
+>;
 
 const CartScreen: React.FC = () => {
-  const { cartItems, clearCart, updateCartItemQuantity, removeCartItem } =
-    useCart();
+  const { cartItems, updateCartItemQuantity, removeCartItem } = useCart();
+  const [user, setUser] = useState<{ firstName: string; lastName: string }>({
+    firstName: "",
+    lastName: "",
+  });
 
-  // Access the navigation object using the useNavigation hook
-  const navigation = useNavigation();
+  const navigation = useNavigation<CartScreenNavigationProp>();
 
-  // Calculate the total amount of the cart
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUserData = await AsyncStorage.getItem("userData");
+        if (storedUserData) {
+          const parsedUserData = JSON.parse(storedUserData);
+          if (Array.isArray(parsedUserData) && parsedUserData.length > 0) {
+            setUser({
+              firstName: parsedUserData[0].firstName,
+              lastName: parsedUserData[0].lastName,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -26,47 +236,34 @@ const CartScreen: React.FC = () => {
     );
   };
 
-  const generateOrderDetails = () => {
-    // Generate order details (this is just an example format)
-    return JSON.stringify(
-      cartItems.map((item) => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-      }))
-    );
+  const generateQRData = () => {
+    const orderDetails = cartItems.map((item) => ({
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+    return JSON.stringify({
+      user: `${user.firstName} ${user.lastName}`,
+      orderDetails,
+    });
   };
 
-  // Handle adding/removing items from the cart
-  const handleIncreaseQuantity = (id: number) => {
-    const item = cartItems.find((item) => item.id === id);
-    if (item && item.quantity > 0) {
-      updateCartItemQuantity(id, item.quantity + 1); // Increment quantity by 1
-    }
-  };
-
-  const handleDecreaseQuantity = (id: number) => {
-    const item = cartItems.find((item) => item.id === id);
-    if (item && item.quantity > 1) {
-      updateCartItemQuantity(id, item.quantity - 1); // Decrement quantity by 1
-    }
-  };
-
-  const handleRemoveItem = (id: number) => {
-    removeCartItem(id);
+  const handleConfirmOrder = () => {
+    const qrData = generateQRData(); // Generate QR data from the function
+    navigation.navigate("OrderConfirmation", { qrData });
   };
 
   return (
     <View style={styles.container}>
-      {/* Back button */}
-      <View style={styles.backButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require("../../assets/icons/previous.png")} // Add your back button icon path here
-            style={styles.backButton}
-          />
-        </TouchableOpacity>
-      </View>
+     <View  style={styles.Topbar}>
+       {/* Back to Menu Button */}
+       <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
+        <Image
+          source={require("../../assets/icons/previous.png")}
+          style={styles.previousButton}
+        />
+      </TouchableOpacity>
+     </View>
 
       {cartItems.length > 0 ? (
         <>
@@ -78,57 +275,49 @@ const CartScreen: React.FC = () => {
                 <View style={styles.itemDetails}>
                   <Text style={styles.itemName}>{item.name}</Text>
                   <Text style={styles.itemPrice}>₱{item.price}.00</Text>
-
-                  {/* Quantity Controls */}
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      onPress={() => handleDecreaseQuantity(item.id)}
-                    >
-                      <Text style={styles.minusButton}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.itemQuantity}>{item.quantity}</Text>
-                    <TouchableOpacity
-                      onPress={() => handleIncreaseQuantity(item.id)}
-                    >
-                      <Text style={styles.plusButton}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  {/* Remove Item Button */}
-                  <TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
-                    <Text style={styles.removeItem}>REMOVE</Text>
+                </View>
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={() =>
+                      updateCartItemQuantity(
+                        item.id,
+                        Math.max(1, item.quantity - 1)
+                      )
+                    }
+                  >
+                    <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.quantityText}>{item.quantity}</Text>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={() =>
+                      updateCartItemQuantity(item.id, item.quantity + 1)
+                    }
+                  >
+                    <Text style={styles.buttonText}>+</Text>
                   </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                  style={styles.removeButton}
+                  onPress={() => removeCartItem(item.id)}
+                >
+                  <Text style={styles.removeButtonText}>Remove</Text>
+                </TouchableOpacity>
               </View>
             )}
           />
-
-          {/* Bottom Section with QR Code and Confirm Order Button */}
-          <View style={styles.bottomSection}>
-            <View style={styles.qrCodeContainer}>
-              <Text style={styles.totalAmount}>
-                Total: ₱{calculateTotal().toFixed(2)}
-              </Text>
-              {/* QRCode for Order Details */}
-              <QRCode value={generateOrderDetails()} size={130} />
-            </View>
-          </View>
-
-          <TouchableOpacity
-              style={styles.confirmButton}
-              onPress={() => alert("Order Confirmed")}
-            >
-              <Text style={styles.confirmButtonText}>Confirm Order</Text>
-            </TouchableOpacity>
-
-            {/* Empty Cart Button */}
+          <View style={styles.totalContainer}>
+            <Text style={styles.totalAmount}>
+              Total: ₱{calculateTotal().toFixed(2)}
+            </Text>
             <TouchableOpacity
-              style={styles.emptyCartButton}
-              onPress={clearCart}
+              style={styles.confirmOrderButton}
+              onPress={handleConfirmOrder}
             >
-              <Text style={styles.emptyCartButtonText}>Clear Cart</Text>
+              <Text style={styles.confirmOrderText}>Confirm Order</Text>
             </TouchableOpacity>
-
+          </View>
         </>
       ) : (
         <Text style={styles.emptyCart}>Your cart is empty.</Text>
@@ -138,153 +327,79 @@ const CartScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-
-  
-  minusButton: {
-    backgroundColor: "#FF6B6B",
-    borderRadius: 8,
-    padding: 5,
-    fontSize: 20,
-    textAlign: "center",
-    width: 60,
-},
-plusButton: {
-    fontSize: 20,
-    padding: 5,
-    textAlign: "center",
-    backgroundColor: "#9BE38A",
-    borderRadius: 8,
-    width: 60,
-},
-
-  backButtonContainer: {
-    position: "absolute",
-    top: 13,
-    left: 9,
-    zIndex: 1, // Ensure the button is above other content
-  },
-  backButton: {
-    width: 50,
-    height: 50,
-    marginTop: 9,
-    left:309,
+  container: { flex: 1, padding: 16 },
+  previousButton: {
+    width: 40, // Set width for the image
+    height: 40, // Set height for the image
+    resizeMode: "contain", // Ensures the image maintains aspect ratio
   },
   itemContainer: {
-    backgroundColor: "lightgray",
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: "#f9f9f9",
     borderRadius: 5,
-    padding: 2,
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-  itemDetails: {
     flex: 1,
-    marginLeft: 10,
   },
-  itemName: {
-    fontSize: 25,
-    fontWeight: "bold",
-  },
-  itemPrice: {
-    color: "black",
-    marginTop: 20,
-  },
-  itemQuantity: {
-    color: "black",
-    margin: 5,
-  },
-  emptyCart: {
-    textAlign: "center",
-    marginTop: 20,
-    color: "#999",
-  },
-  totalAmount: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-    backgroundColor:"yellow",
-    borderColor: "black",
-    borderRadius:4,
-    borderWidth:2,
-  },
+  itemDetails: { flexDirection: "row", justifyContent: "space-between" },
+  itemName: { fontSize: 16 },
+  itemPrice: { fontSize: 16, fontWeight: "bold" },
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
+    justifyContent: "center",
   },
   quantityButton: {
-    fontSize: 20,
-    padding: 5,
-    textAlign: "center",
-    backgroundColor: "#9BE38A",
-    borderRadius: 8,
-    width: 60,
-  },
-  removeItem: {
-    width: "30%",
-    textAlign: "center",
+    backgroundColor: "#007BFF",
     padding: 10,
     borderRadius: 5,
-    paddingBottom:9,
-    marginBottom: 4,
-    color:"white",
-    borderColor: "black",
-    backgroundColor: "black",
-    marginLeft: 220,
-    marginTop:-35,
-    
+    marginHorizontal: 5,
   },
-  bottomSection: {
-    borderRadius:4,
-    borderWidth:2,
-    flexDirection: "row",
-  maxWidth:"auto",
-    marginBottom: -9,
-    margin: -9,
-    alignItems: "center",
-    backgroundColor: "#C8DEE7",
-  
-  },
-  qrCodeContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    marginLeft: 9,
-    marginBottom:9,
-  },
-  confirmButton: {
-    marginTop: -90,
-    backgroundColor: "#58C7F3",
-    padding: 25,
-    top:-70,
-    marginLeft: 155,
+  buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
+  quantityText: { fontSize: 16, fontWeight: "bold", marginHorizontal: 10 },
+  removeButton: {
+    backgroundColor: "#FF4D4F",
+    padding: 10,
     borderRadius: 5,
-    alignItems: "center",
-    width:180,
+    marginTop: 10,
+    alignSelf: "center",
   },
-  confirmButtonText: {
-    color: "white",
-    fontSize: 18,
+  removeButtonText: { color: "white", fontSize: 14, fontWeight: "bold" },
+  totalContainer: {
+    marginTop: 0,
+    padding:10,
+    margin:-15,
+    marginBottom:-15,
+    backgroundColor:"#C8DEE7",
   },
-  emptyCartButton: {
-    textAlign: "center",
-    marginTop: 20,
+  totalAmount: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+  confirmOrderButton: {
+    backgroundColor: "#28A745",
+    padding: 12,
+    borderRadius: 5,
   },
-  emptyCartButtonText: {
-    color: "white",
-    backgroundColor:"black",
-    textAlign: "center",
-    fontSize: 16,
-    padding:5,
-    bottom:20,
-    right:20,
-    position:"absolute",
-    width:150,
-  },
+  confirmOrderText: { color: "white", fontSize: 16, fontWeight: "bold" },
+  emptyCart: { textAlign: "center", marginTop: 20, color: "#999" },
+
+    goBack: {
+      position: "absolute",
+      top: 3, // Adjusted to make it more visible
+      left: 5,
+      padding: 10, // Added padding for better touch area
+      zIndex: 2, // Ensures it is on top of other elements
+    },
+    Topbar: {
+      height: 60, // Define the height of the top bar
+      backgroundColor: "#C8DEE7", // Add a background color to make the bar visible
+      justifyContent: "center",
+      width:500,
+      maxHeight:90,
+      marginLeft:-20,
+      alignItems: "center",
+      position: "relative",
+      zIndex: 1, // Ensure that the top bar appears under the button if needed
+    },
+
 });
 
 export default CartScreen;

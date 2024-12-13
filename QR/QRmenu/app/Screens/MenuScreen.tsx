@@ -724,6 +724,9 @@
     },
 
     profileButton: {
+      flex: 1,
+      position: "absolute",
+      marginTop:6,
       width: 40, // Width of the image button
       height: 40, // Height of the image button
       borderRadius: 25, // Makes the image circular if it's a square image
@@ -736,7 +739,8 @@
       width: 40, // Width of the image button
       height: 40, // Height of the image button
       borderRadius: 25, // Makes the image circular if it's a square image
-      left: 290, // Position the cart button to the right of the screen
+      left: 310, // Position the cart button to the right of the screen
+      
     },
 
     menuContainer: {

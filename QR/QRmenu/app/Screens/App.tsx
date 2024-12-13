@@ -1,17 +1,14 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LogInScreen from "./Screens/LoginScreen";
-import MenuScreen from "./Screens/MenuScreen";
-import ProfileScreen from "./Screens/ProfileScreen";
-import SignUpScreen from "./Screens/SignUp";
-import SplashScreen from "./Screens/SplashScreen";
-import ChangePasswordScreen from "./Screens/ChangePasswordScreen";
-import CartScreen from "./Screens/CartScreen";
-import { CartProvider } from "./Screens/CartContext";
-import { registerRootComponent } from 'expo';
-import QRCodeScreen from "./Screens/QRCodeScreen";
-import OrderConfirmationScreen from "./Screens/OrderConfirmationScreen";
+import LogInScreen from "./app/Screens/LoginScreen";
+import MenuScreen from "./app/Screens/MenuScreen";
+import ProfileScreen from "./app/Screens/ProfileScreen";
+import SignUpScreen from "./app/Screens/SignUp";
+import SplashScreen from "./app/Screens/SplashScreen";
+import ChangePasswordScreen from "./app/Screens/ChangePasswordScreen";
+import CartScreen from "./app/Screens/CartScreen";
+import { CartProvider } from "./app/Screens/CartContext";
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -21,22 +18,18 @@ export type RootStackParamList = {
   Profile: undefined;
   ChangePassword: undefined;
   Cart: undefined;
-  QRCode: undefined;
-  OrderConfirmation:   { qrData: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const App = () => {
+export default function App() {
   return (
     <CartProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Menu"
+          initialRouteName="Splash"
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="OrderConfirmation" component={OrderConfirmationScreen} />
-          <Stack.Screen name="QRCode" component={QRCodeScreen} />
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="LogIn" component={LogInScreen} />
@@ -48,9 +41,4 @@ const App = () => {
       </NavigationContainer>
     </CartProvider>
   );
-};
-
-// Use expo's registerRootComponent to ensure the app works correctly with Expo
-registerRootComponent(App);
-
-export default App;
+}

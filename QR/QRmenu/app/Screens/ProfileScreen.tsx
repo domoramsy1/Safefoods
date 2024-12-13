@@ -237,22 +237,22 @@
 
     previousButtonContainer: {
       position: "absolute",
-      top: 10,
+      top: -20,
       left: 10,
     },
     previousButton: {
-      width: 40,
-      height: 40,
+      width: 30,
+      height: 30,
     },
 
     logoutButtonContainer: {
       position: "absolute",
-      top: 10,
+      top: -20,
       right: 10,
     },
     logoutButton: {
-      width: 40,
-      height: 40,
+      width: 30,
+      height: 30,
     },
 
     saveButtonContainer: {
