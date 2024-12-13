@@ -1,14 +1,17 @@
-import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LogInScreen from "./app/Screens/LoginScreen";
-import MenuScreen from "./app/Screens/MenuScreen";
-import ProfileScreen from "./app/Screens/ProfileScreen";
-import SignUpScreen from "./app/Screens/SignUp";
-import SplashScreen from "./app/Screens/SplashScreen";
-import ChangePasswordScreen from "./app/Screens/ChangePasswordScreen";
-import CartScreen from "./app/Screens/CartScreen";
-import { CartProvider } from "./app/Screens/CartContext";
+import { registerRootComponent } from "expo";
+import React from "react";
+import { CartProvider } from "./CartContext";
+import CartScreen from "./CartScreen";
+import ChangePasswordScreen from "./ChangePasswordScreen";
+import LogInScreen from "./LoginScreen";
+import MenuScreen from "./MenuScreen";
+import OrderConfirmationScreen from "./OrderConfirmationScreen";
+import ProfileScreen from "./ProfileScreen";
+import QRCodeScreen from "./QRCodeScreen";
+import SignUpScreen from "./SignUp";
+import SplashScreen from "./SplashScreen";
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -18,11 +21,13 @@ export type RootStackParamList = {
   Profile: undefined;
   ChangePassword: undefined;
   Cart: undefined;
+  QRCode: undefined;
+  OrderConfirmation: { qrData: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function App() {
+const App = () => {
   return (
     <CartProvider>
       <NavigationContainer>
@@ -30,15 +35,58 @@ export default function App() {
           initialRouteName="Splash"
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="Splash" component={SplashScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="LogIn" component={LogInScreen} />
-          <Stack.Screen name="Menu" component={MenuScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
-          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen
+            name="OrderConfirmation"
+            component={OrderConfirmationScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="QRCode"
+            component={QRCodeScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="LogIn"
+            component={LogInScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="Menu"
+            component={MenuScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
+          <Stack.Screen
+            name="Cart"
+            component={CartScreen}
+            options={{ gestureEnabled: false }} // Disable swipe back gesture
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
   );
-}
+};
+
+// Use expo's registerRootComponent to ensure the app works correctly with Expo
+registerRootComponent(App);
+
+export default App;

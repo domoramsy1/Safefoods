@@ -1,43 +1,30 @@
 import React, { useState } from "react";
-import {
-    Dimensions,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Alert,
-} from "react-native";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type DishCardProps = {
     item: {
+        id: number; // Add ID for removing the item from the cart
         name: string;
         price: number;
         image: any; // Adjust type as necessary
     };
-    onOrder: (item: { name: string; price: number }, quantity: number) => void;
+    onOrder: (item: { id: number; name: string; price: number }, isAdded: boolean) => void; // Pass state of item
 };
 
 const { width } = Dimensions.get("window"); // Get screen width
 
 const DishCard: React.FC<DishCardProps> = ({ item, onOrder }) => {
-    const [quantity, setQuantity] = useState(0);
-
-    const increaseQuantity = () => setQuantity((prev) => prev + 1);
-
-    const decreaseQuantity = () => {
-        if (quantity > 0) setQuantity((prev) => prev - 1);
-    };
+    const [isAdded, setIsAdded] = useState(false); // State to manage button text and disabled
 
     const handleOrder = () => {
-        if (quantity <= 0) {
-            Alert.alert(
-                "Quantity Error",
-                "Please increase the quantity to at least 1 before adding to cart."
-            );
-            return;
+        if (isAdded) {
+            // If the item is already added, remove it from the cart
+            onOrder(item, false); // Pass false to remove the item
+        } else {
+            // If the item is not added, add it to the cart
+            onOrder(item, true); // Pass true to add the item
         }
-        onOrder(item, quantity);
+        setIsAdded(!isAdded); // Toggle the state of the item
     };
 
     return (
@@ -46,25 +33,16 @@ const DishCard: React.FC<DishCardProps> = ({ item, onOrder }) => {
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>₱{item.price.toFixed(2)}</Text>
 
-            <View style={styles.quantityContainer}>
-                <TouchableOpacity onPress={decreaseQuantity} style={styles.minusButton}>
-                    <Text style={styles.buttonText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantityText}>{quantity}</Text>
-                <TouchableOpacity onPress={increaseQuantity} style={styles.plusButton}>
-                    <Text style={styles.buttonText}>+</Text>
-                </TouchableOpacity>
-            </View>
-
             <TouchableOpacity
                 onPress={handleOrder}
                 style={[
                     styles.orderButton,
-                    { backgroundColor: quantity > 0 ? "#007BFF" : "#ccc" }, // Disable button style
+                    { backgroundColor:  "#007BFF" },//  Change background color based on state
                 ]}
-                disabled={quantity <= 0} // Disable button functionality
             >
-                <Text style={styles.orderButtonText}>Add-To-Cart</Text>
+                <Text style={styles.orderButtonText}>
+                    {"Add to Cart"} {/* Change button text */}
+                </Text>
             </TouchableOpacity>
         </View>
     );
@@ -102,38 +80,6 @@ const styles = StyleSheet.create({
         color: "#555",
         fontSize: 18,
         marginBottom: 12,
-    },
-    quantityContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 12,
-        
-    },
-    minusButton: {
-        backgroundColor: "#FF6B6B",
-        borderRadius: 8,
-        paddingRight: 25,
-        paddingLeft:25,
-        padding:9,
-    },
-    plusButton: {
-        backgroundColor: "#4CAF50",
-        borderRadius: 8,
-        paddingRight: 25,
-        paddingLeft:25,
-        padding:9,
-    
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#fff",
-        textAlign:"center"
-    },
-    quantityText: {
-        fontSize: 18,
-        marginHorizontal: 20,
-        color: "#333",
     },
     orderButton: {
         paddingVertical: 12,

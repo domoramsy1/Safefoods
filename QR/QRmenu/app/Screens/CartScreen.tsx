@@ -176,6 +176,8 @@
 // });
 
 // export default CartScreen;
+
+
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import {
@@ -255,15 +257,18 @@ const CartScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-     <View  style={styles.Topbar}>
-       {/* Back to Menu Button */}
-       <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
-        <Image
-          source={require("../../assets/icons/previous.png")}
-          style={styles.previousButton}
-        />
-      </TouchableOpacity>
-     </View>
+      <View style={styles.Topbar}>
+        {/* Back to Menu Button */}
+        <TouchableOpacity
+          style={styles.goBack}
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={require("../../assets/icons/previous.png")}
+            style={styles.previousButton}
+          />
+        </TouchableOpacity>
+      </View>
 
       {cartItems.length > 0 ? (
         <>
@@ -278,7 +283,7 @@ const CartScreen: React.FC = () => {
                 </View>
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity
-                    style={styles.quantityButton}
+                    style={styles.minusButton}
                     onPress={() =>
                       updateCartItemQuantity(
                         item.id,
@@ -290,7 +295,7 @@ const CartScreen: React.FC = () => {
                   </TouchableOpacity>
                   <Text style={styles.quantityText}>{item.quantity}</Text>
                   <TouchableOpacity
-                    style={styles.quantityButton}
+                    style={styles.plusButton}
                     onPress={() =>
                       updateCartItemQuantity(item.id, item.quantity + 1)
                     }
@@ -346,8 +351,10 @@ const styles = StyleSheet.create({
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 40,
+    left:5,
     justifyContent: "center",
+    position:"absolute",
   },
   quantityButton: {
     backgroundColor: "#007BFF",
@@ -358,48 +365,70 @@ const styles = StyleSheet.create({
   buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
   quantityText: { fontSize: 16, fontWeight: "bold", marginHorizontal: 10 },
   removeButton: {
-    backgroundColor: "#FF4D4F",
+    backgroundColor: "black",
     padding: 10,
     borderRadius: 5,
+    left:128,
     marginTop: 10,
     alignSelf: "center",
   },
   removeButtonText: { color: "white", fontSize: 14, fontWeight: "bold" },
   totalContainer: {
     marginTop: 0,
-    padding:10,
-    margin:-15,
-    marginBottom:-15,
-    backgroundColor:"#C8DEE7",
+    padding: 10,
+    margin: -15,
+    marginBottom: -15,
+    backgroundColor: "#EBEDA0",
   },
   totalAmount: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
   confirmOrderButton: {
-    backgroundColor: "#28A745",
+    backgroundColor: "#58C7F3",
     padding: 12,
     borderRadius: 5,
   },
-  confirmOrderText: { color: "white", fontSize: 16, fontWeight: "bold" },
-  emptyCart: { textAlign: "center", marginTop: 20, color: "#999" },
+  confirmOrderText: {
+    color: "white",
+    fontSize: 16,
+    textAlign:"center",
+    fontWeight: "bold",
+  },
+  emptyCart: { 
+    textAlign: "center", marginTop: 20, color: "#999" },
 
-    goBack: {
-      position: "absolute",
-      top: 3, // Adjusted to make it more visible
-      left: 5,
-      padding: 10, // Added padding for better touch area
-      zIndex: 2, // Ensures it is on top of other elements
-    },
-    Topbar: {
-      height: 60, // Define the height of the top bar
-      backgroundColor: "#C8DEE7", // Add a background color to make the bar visible
-      justifyContent: "center",
-      width:500,
-      maxHeight:90,
-      marginLeft:-20,
-      alignItems: "center",
-      position: "relative",
-      zIndex: 1, // Ensure that the top bar appears under the button if needed
-    },
+  goBack: {
+    position: "absolute",
+    top: 3, // Adjusted to make it more visible
+    left: 5,
+    padding: 10, // Added padding for better touch area
+    zIndex: 2, // Ensures it is on top of other elements
+  },
+  Topbar: {
+    height: 60, // Define the height of the top bar
+    backgroundColor: "#EBEDA0", // Add a background color to make the bar visible
+    justifyContent: "center",
+    width: 500,
+    maxHeight: 90,
+    marginLeft: -20,
+    alignItems: "center",
+    position: "relative",
+    zIndex: 1, // Ensure that the top bar appears under the button if needed
+  },
+  
+  minusButton: {
+    backgroundColor: "#FF6B6B",
+    borderRadius: 8,
+    paddingRight: 25,
+    paddingLeft:25,
+    padding:9,
+},
+plusButton: {
+    backgroundColor: "#4CAF50",
+    borderRadius: 8,
+    paddingRight: 25,
+    paddingLeft:25,
+    padding:9,
 
+},
 });
 
 export default CartScreen;

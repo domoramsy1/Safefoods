@@ -3,6 +3,7 @@
   import { useEffect, useState } from "react";
 
   import {
+    Alert,
     Button,
     Image,
     ImageBackground,
@@ -13,10 +14,12 @@
     Text,
     TouchableOpacity,
     View,
-    Alert,
   } from "react-native";
-  import { launchImageLibrary, ImagePickerResponse } from "react-native-image-picker";
-  import Animated, { FadeInDown } from "react-native-reanimated";
+  import {
+    ImagePickerResponse,
+    launchImageLibrary,
+  } from "react-native-image-picker";
+  import { FadeInDown } from "react-native-reanimated";
 
   type RootStackParamList = {
     Profile: { updatedData?: { password: string } };
@@ -33,14 +36,20 @@
   interface CustomImagePickerResponse {
     didCancel?: boolean;
     error?: string;
-    assets?: Array<{
-      uri: string; // Ensure uri is always a string
-      type?: string;
-      fileName?: string;
-    }> | undefined;
+    assets?:
+      | Array<{
+          uri: string; // Ensure uri is always a string
+          type?: string;
+          fileName?: string;
+        }>
+      | undefined;
   }
 
-  const ProfileScreen = ({ navigation }: { navigation: ProfileScreenNavigationProp }) => {
+  const ProfileScreen = ({
+    navigation,
+  }: {
+    navigation: ProfileScreenNavigationProp;
+  }) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -58,8 +67,8 @@
             if (Array.isArray(userDataArray) && userDataArray.length > 0) {
               const latestUser = userDataArray[userDataArray.length - 1];
 
-              setFirstName(latestUser.firstName);
-              setLastName(latestUser.lastName);
+              setFirstName(latestUser.firstname);
+              setLastName(latestUser.lastname);
               setEmail(latestUser.email);
               setUserName(latestUser.username);
               setPassword(latestUser.password);
@@ -110,10 +119,25 @@
       await AsyncStorage.setItem("userData", JSON.stringify(userDataArray));
       Alert.alert("Success", "Profile updated successfully");
     };
-
+  
     const handleLogout = async () => {
-      navigation.navigate("LogIn");
+      Alert.alert(
+        "Confirm Logout",
+        "Are you sure you want to log out?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          {
+            text: "Logout",
+            onPress: () => navigation.navigate("LogIn")
+          }
+        ]
+      );
     };
+    
 
     const handleMenu = async () => {
       navigation.navigate("Menu");
@@ -124,7 +148,7 @@
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+      
           <View style={styles.profileContainer}>
             <TouchableOpacity onPress={handleChoosePhoto}>
               {photo ? (
@@ -139,45 +163,41 @@
                 </ImageBackground>
               )}
             </TouchableOpacity>
-            <Animated.View style={styles.formContainer}>
+            <View style={styles.formContainer}>
               {/* First Name */}
-              <Animated.View
-                entering={FadeInDown.delay(200).duration(1000).springify()}
+              <View
+                
                 style={styles.inputContainer}
               >
                 <Text style={styles.label}>
                   FirstName: {firstName || "First Name"}
                 </Text>
-              </Animated.View>
+              </View>
 
               {/* Last Name */}
-              <Animated.View
-                entering={FadeInDown.delay(250).duration(1000).springify()}
-                style={styles.inputContainer}
+              <View              style={styles.inputContainer}
               >
                 <Text style={styles.label}>
                   LastName: {lastName || "Last Name"}
                 </Text>
-              </Animated.View>
+              </View>
 
               {/* Email */}
-              <Animated.View
-                entering={FadeInDown.delay(300).duration(1000).springify()}
+              <View
                 style={styles.inputContainer}
               >
                 <Text style={styles.label}>Email: {email || "Email"}</Text>
-              </Animated.View>
+              </View>
 
               {/* Username */}
-              <Animated.View
-                entering={FadeInDown.delay(350).duration(1000).springify()}
+              <View
                 style={styles.inputContainer}
               >
                 <Text style={styles.label}>
                   Username: {username || "Username"}
                 </Text>
-              </Animated.View>
-            </Animated.View>
+              </View>
+            </View>
 
             {/* Menu button (top left) */}
             <View style={styles.previousButtonContainer}>
@@ -189,7 +209,6 @@
               </TouchableOpacity>
             </View>
 
-
             {/* Logout button (top right) */}
             <View style={styles.logoutButtonContainer}>
               <TouchableOpacity onPress={handleLogout}>
@@ -199,15 +218,13 @@
                 />
               </TouchableOpacity>
             </View>
-
-            <View>
-              <Button
-                title="Change Password"
-                onPress={() => navigation.navigate("ChangePassword")}
-              />
-            </View>
+            <View style={styles.ChangePass}>
+    <TouchableOpacity onPress={() => navigation.navigate("ChangePassword")}>
+      <Text style={styles.buttonText}>Change Password</Text>
+    </TouchableOpacity>
+  </View>
           </View>
-        </ScrollView>
+      
       </KeyboardAvoidingView>
     );
   };
@@ -223,6 +240,24 @@
       paddingTop: 30,
       backgroundColor: "#FFFFFF",
     },
+
+  ChangePass: {
+    marginTop: -50,
+    width: "60%",
+    height: 40,
+    backgroundColor: "#58C7F3",
+    borderRadius: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    
+  },
+
+  buttonText: {
+    color: 'white', // Make the text color white
+    fontSize: 18,    // You can adjust the font size
+    textAlign: 'center', // Center the text
+    padding: 10,  // Add some padding to make it look better
+  },
 
     label: {
       backgroundColor: "lightgray",
