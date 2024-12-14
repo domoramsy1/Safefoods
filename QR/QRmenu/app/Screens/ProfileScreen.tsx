@@ -159,7 +159,7 @@
                   style={styles.placeholderPhoto}
                   imageStyle={{ borderRadius: 50 }}
                 >
-                  <Text style={styles.placeholderText}>Add Photo</Text>
+               {/* <Text style={styles.placeholderText}>Add Photo</Text> */}
                 </ImageBackground>
               )}
             </TouchableOpacity>
@@ -276,8 +276,8 @@
       left: 10,
     },
     previousButton: {
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
     },
 
     logoutButtonContainer: {
@@ -286,8 +286,8 @@
       right: 10,
     },
     logoutButton: {
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
     },
 
     saveButtonContainer: {
